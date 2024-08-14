@@ -1,0 +1,52 @@
+@startuml
+class Universidade {
+    +curriculos: List<Curriculo>
+}
+
+class Curriculo {
+    +cursos: List<Curso>
+}
+
+class Curso {
+    +nome: String
+    +creditos: int
+    +disciplinas: List<Disciplina>
+}
+
+class Disciplina {
+    +nome: String
+    +numeroMaximoAlunos: int
+    +status: String
+    +alunosInscritos: List<Aluno>
+}
+
+class Aluno {
+    +nome: String
+    +matriculas: List<Matrícula>
+    +senha: String
+}
+
+class Professor {
+    +nome: String
+    +visualizarMatriculas(disciplina: Disciplina): List<Aluno>
+    +senha: String
+}
+
+class Matrícula {
+    +dataMatricula: Date
+    +disciplina: Disciplina
+    +aluno: Aluno
+}
+
+class SistemaDeCobrança {
+    +notificarCobranca(aluno: Aluno, semestre: String)
+}
+
+Universidade "1" -- "1" Curriculo
+Curriculo "1" -- "0..*" Curso
+Curso "1" -- "0..*" Disciplina
+Disciplina "1" -- "0..*" Matrícula
+Aluno "1" -- "0..*" Matrícula
+Professor "0..*" -- "0..*" Disciplina
+
+@enduml
