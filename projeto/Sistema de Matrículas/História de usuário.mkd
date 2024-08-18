@@ -1,0 +1,105 @@
+### Histórias de Usuário
+
+#### História de Usuário 1: Matricular em Disciplinas
+
+**Como** aluno,  
+**Quero** me matricular em disciplinas para o semestre,  
+**Para que** eu possa cumprir os requisitos do meu curso.
+
+**Critérios de Aceitação:**
+- O aluno pode se matricular em até 4 disciplinas obrigatórias e em mais 2 optativas.
+- O sistema deve permitir a visualização das disciplinas disponíveis (UC1).
+- Após a matrícula, o sistema deve notificar o sistema de cobrança (UC10), e uma cobrança deve ser gerada (UC11).
+
+---
+
+#### História de Usuário 2: Cancelar Matrículas
+
+**Como** aluno,  
+**Quero** cancelar minhas matrículas em disciplinas,  
+**Para que** eu possa modificar minha escolha de disciplinas durante o período de matrículas.
+
+**Critérios de Aceitação:**
+- O aluno pode cancelar matrículas feitas anteriormente.
+- Após o cancelamento, o sistema deve notificar o sistema de cobrança (UC10) e gerar uma nova cobrança, se necessário (UC11).
+
+---
+
+#### História de Usuário 3: Consultar Disciplinas Disponíveis
+
+**Como** aluno,  
+**Quero** consultar as disciplinas disponíveis para o semestre,  
+**Para que** eu possa escolher aquelas em que desejo me matricular.
+
+**Critérios de Aceitação:**
+- O sistema deve mostrar uma lista de disciplinas disponíveis para o semestre (UC1).
+- A consulta deve incluir informações sobre cada disciplina, como nome e tipo (obrigatória ou optativa).
+
+---
+
+#### História de Usuário 4: Gerar Currículo Semestral
+
+**Como** secretaria,  
+**Quero** gerar o currículo para o próximo semestre,  
+**Para que** as disciplinas possam ser oferecidas aos alunos.
+
+**Critérios de Aceitação:**
+- O currículo deve incluir todas as disciplinas que serão oferecidas no semestre (UC2).
+- O sistema deve permitir a inclusão e exclusão de disciplinas no currículo.
+
+---
+
+#### História de Usuário 5: Manter Informações de Disciplinas, Professores e Alunos
+
+**Como** secretaria,  
+**Quero** manter as informações atualizadas sobre disciplinas, professores e alunos,  
+**Para que** o sistema reflita corretamente os dados da universidade.
+
+**Critérios de Aceitação:**
+- O sistema deve permitir a criação, leitura, atualização e exclusão de informações sobre disciplinas (UC3), professores (UC4) e alunos (UC5).
+- As alterações devem ser refletidas em tempo real no sistema.
+
+---
+
+#### História de Usuário 6: Consultar Alunos Matriculados
+
+**Como** professor,  
+**Quero** consultar a lista de alunos matriculados em minhas disciplinas,  
+**Para que** eu possa conhecer meus alunos e preparar as aulas adequadamente.
+
+**Critérios de Aceitação:**
+- O sistema deve permitir ao professor visualizar a lista de alunos matriculados em suas disciplinas (UC6).
+- A lista deve incluir informações básicas dos alunos, como nome e número de matrícula.
+
+---
+
+#### História de Usuário 7: Notificar Sistema de Cobrança
+
+**Como** sistema de matrículas,  
+**Quero** notificar o sistema de cobrança sobre as matrículas realizadas e canceladas,  
+**Para que** o aluno possa ser cobrado corretamente pelas disciplinas do semestre.
+
+**Critérios de Aceitação:**
+- Após uma matrícula ser realizada ou cancelada, o sistema deve notificar o sistema de cobrança (UC10).
+- O sistema de cobrança deve então gerar a cobrança correspondente (UC11).
+
+---
+
+#### História de Usuário 8: Gerar Cobrança
+
+**Como** sistema de cobrança,  
+**Quero** gerar a cobrança para as disciplinas em que o aluno está matriculado,  
+**Para que** o aluno possa pagar pelas disciplinas do semestre.
+
+**Critérios de Aceitação:**
+- O sistema de cobrança deve gerar a cobrança com base nas informações recebidas do sistema de matrículas (UC11).
+- A cobrança deve incluir todas as disciplinas em que o aluno está matriculado para o semestre.
+
+---
+
+### Observações
+
+- **Cursos e Disciplinas:** Cada curso tem um nome, número de créditos e é constituído por diversas disciplinas.
+- **Limite de Matrículas:** O sistema deve gerenciar o número máximo de alunos por disciplina (60 alunos) e garantir que disciplinas sejam canceladas se não atingirem o mínimo de 3 alunos.
+- **Período de Matrículas:** O sistema deve permitir matrículas e cancelamentos durante o período específico.
+- **Cobrança:** Após a matrícula ou cancelamento, o sistema deve notificar e gerar cobranças conforme necessário.
