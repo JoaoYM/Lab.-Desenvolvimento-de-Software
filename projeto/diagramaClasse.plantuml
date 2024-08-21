@@ -1,41 +1,57 @@
 @startuml
 class Universidade {
-    +curriculos: List<Curriculo>
+    -curriculos: List<Curriculo>
 }
 
 class Curriculo {
-    +cursos: List<Curso>
+    -cursos: List<Curso>
 }
 
 class Curso {
-    +nome: String
-    +creditos: int
-    +disciplinas: List<Disciplina>
+    -nome: String
+    -creditos: int
+    -cargaHoraria: int
+    -disciplinas: List<Disciplina>
 }
 
 class Disciplina {
-    +nome: String
-    +numeroMaximoAlunos: int
-    +status: String
-    +alunosInscritos: List<Aluno>
+    -nome: String
+    -numeroMinimoAlunos: int
+    -numeroMaximoAlunos: int
+    -cargaHoraria: int
+    -status: String
+    -professorResponsavel: Professor
+    -alunosInscritos: List<Aluno>
+}
+
+interface Usuario {
+    -nome: String
+    -senha: String
 }
 
 class Aluno {
-    +nome: String
-    +matriculas: List<Matrícula>
-    +senha: String
+    -nome: String
+    -senha: String
+    -curso: Curso
+    -matriculas: List<Matrícula>
 }
 
 class Professor {
-    +nome: String
+    -nome: String
+    -senha: String
+    -disciplinas: List<Disciplina>
     +visualizarMatriculas(disciplina: Disciplina): List<Aluno>
-    +senha: String
+}
+
+class Secretaria {
+    -nome: String
+    +geriCurriculoSemestral(curriculo: Curriculo)
 }
 
 class Matrícula {
-    +dataMatricula: Date
-    +disciplina: Disciplina
-    +aluno: Aluno
+    -dataMatricula: Date
+    -disciplina: Disciplina
+    -aluno: Aluno
 }
 
 class SistemaDeCobrança {
@@ -43,6 +59,7 @@ class SistemaDeCobrança {
 }
 
 Universidade "1" -- "1" Curriculo
+Secretaria "1" -- "0..*" Curriculo
 Curriculo "1" -- "0..*" Curso
 Curso "1" -- "0..*" Disciplina
 Disciplina "1" -- "0..*" Matrícula
