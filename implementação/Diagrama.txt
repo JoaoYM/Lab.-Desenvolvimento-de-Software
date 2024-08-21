@@ -1,0 +1,11 @@
+Criar a classe secretária.
+Criar uma interface Usuario (nome, senha)
+Interface Credito: implementada por Curso e Disciplina.
+Colocar o atributo ProfessorResponsave na classe Disciplina
+Colocar na classe Profesor um List das Disciplinas que ele da.
+Tirar a classe sistema de cobrança e implementar o metodo para notificar o sistema de cobrança.
+Ligar secretaria em curriculo
+Criar atributo Carga Horária em Curso e Disciplina
+Uma Disciplina só possui uma turma 
+Criar atributo "número mínimo" em Disciplina
+

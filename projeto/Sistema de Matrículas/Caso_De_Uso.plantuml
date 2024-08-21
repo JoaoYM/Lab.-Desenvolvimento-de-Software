@@ -1,0 +1,46 @@
+@startuml Sistema de Matrículas
+
+rectangle "Universidade" {
+
+  actor Aluno as a
+
+  package Funcionários {
+    actor Secretaria as s
+    actor Professor  as p
+  }
+
+  package Sistema_De_Matrículas {
+    usecase "Consultar Disciplinas Disponíveis" as UC1
+    usecase "Gerar Currículo Semestral"         as UC2
+    usecase "Manter Informações de Disciplinas" as UC3
+    usecase "Manter Informações de Professores" as UC4
+    usecase "Manter Informações de Alunos"      as UC5
+    usecase "Consultar Alunos Matriculados"     as UC6
+    usecase "Matricular em Disciplinas"         as UC7
+    usecase "Cancelar Matrículas"               as UC8
+    usecase "CRUD"                              as UC9
+    usecase "Notificar Sistema de Cobrança"     as UC10
+  }
+
+}
+
+' Aluno
+a    --> UC1
+UC1  <-- UC7  : <<extend>>
+UC1  <-- UC8  : <<extend>>
+UC8  --> UC10 : <<include>>
+UC7  --> UC10 : <<include>>
+
+
+' Secretária
+
+s    --> UC9
+s    --> UC2
+UC9  <|-- UC3 
+UC9  <|-- UC4 
+UC9  <|-- UC5 
+
+' Professor
+p    --> UC6
+
+@enduml
