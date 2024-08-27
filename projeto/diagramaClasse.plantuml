@@ -9,7 +9,7 @@ class Curriculo {
 
 class Curso {
     -nome: String
-    -creditos: int
+    -creditos: Credito
     -cargaHoraria: int
     -disciplinas: List<Disciplina>
 }
@@ -19,8 +19,23 @@ class Disciplina {
     -numeroMinimoAlunos: int
     -numeroMaximoAlunos: int
     -cargaHoraria: int
+    -creditos: Credito
     -status: String
     -professorResponsavel: Professor
+    -alunosInscritos: List<Aluno>
+    -preRequisitos: List<Disciplina>
+    -coRequisitos: List<Disciplina>
+}
+
+interface Credito {
+    -quantidadeCreditos: int
+}
+
+class Turma {
+    -ano: int
+    -semestre: int
+    -disciplina: Disciplina
+    -professor: Professor
     -alunosInscritos: List<Aluno>
 }
 
@@ -30,15 +45,11 @@ interface Usuario {
 }
 
 class Aluno {
-    -nome: String
-    -senha: String
     -curso: Curso
     -matriculas: List<Matrícula>
 }
 
 class Professor {
-    -nome: String
-    -senha: String
     -disciplinas: List<Disciplina>
     +visualizarMatriculas(disciplina: Disciplina): List<Aluno>
 }
@@ -46,16 +57,13 @@ class Professor {
 class Secretaria {
     -nome: String
     +geriCurriculoSemestral(curriculo: Curriculo)
+    +notificarCobranca(aluno: Aluno, semestre: String)
 }
 
 class Matrícula {
     -dataMatricula: Date
     -disciplina: Disciplina
     -aluno: Aluno
-}
-
-class SistemaDeCobrança {
-    +notificarCobranca(aluno: Aluno, semestre: String)
 }
 
 Universidade "1" -- "1" Curriculo
@@ -65,5 +73,10 @@ Curso "1" -- "0..*" Disciplina
 Disciplina "1" -- "0..*" Matrícula
 Aluno "1" -- "0..*" Matrícula
 Professor "0..*" -- "0..*" Disciplina
+Disciplina "1" -- "1" Turma
+Curso *-- Credito
+Disciplina *-- Credito
+Usuario <|-- Aluno
+Usuario <|-- Professor
 
 @enduml
