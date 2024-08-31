@@ -1,0 +1,100 @@
+@startuml
+' class Universidade {
+'     -curriculos: List<Curriculo>
+' }
+
+class Curriculo {
+    -cursos: List<Curso>
+    +turmasOfertadas()
+}
+
+class Curso {
+    -nome: String
+    +Curso(nome: String, creditos: Credito)
+}
+
+class Disciplina{
+    -nome: String
+    -cargaHoraria: int
+    -creditos: int
+    -curso: Curso
+    -numeroMinimoAlunos: int
+    -numeroMaximoAlunos: int
+    -preRequisitos: List<Disciplina>
+    -coRequisitos: List<Disciplina>
+    +Disciplina(nome: String, cargaHoraria: int)
+    +Disciplina()
+    +matricularAluno(aluno: Aluno)
+    +desmatricularAluno(aluno: Aluno)
+    +criarDisciplina()
+    +listarDisciplinas()
+    +obterDisciplinas()
+    +atualizarDisciplina()
+    +deletarDisciplina()
+    +toString()
+    +fromString()
+}
+
+class Matricula {
+    -dataMatricula: Date
+    -aluno: Aluno
+    +notificarCobranca(aluno: Aluno, dataMatricula: Date): void
+}
+
+class Professor implements Usuario {
+    ' -disciplinas: List<Disciplina>
+    +visualizarDisciplinasMinistradas(): void
+    +visualizarAlunosPorDisciplinas(): void
+    +autenticar(login: String, senha: String): Professor
+}
+
+
+class Aluno implements Usuario {
+    -curso: Curso
+    -matriculas: List<Matricula>
+    +visualizarDisciplinasMatriculadas(): void
+
+    +autenticar(login: String, senha: String): Aluno
+}
+
+
+class Secretaria implements Usuario {
+    +gerirCurriculoSemestral(curriculo: Curriculo): void
+    +cadastrarAluno()  : Aluno
+    +cadastrarProfessor()  : Professor
+    +cadastrarDisciplina()  : Disciplina
+    +autenticar(login: String, senha: String): Secretaria
+}
+
+class Turma {
+    -ano: int
+    -semestre: int
+    -disciplina: Disciplina
+    -professor: Professor
+    -status: Boolean
+    -matriculas: List<Aluno>
+}
+
+interface Usuario{
+    -nome: String
+    -login: String
+    -senha: String
+    +getNome(): String
+    +getLogin(): String
+    +getSenha(): String
+    +setNome(nome: String): void
+    +setLogin(login: String): void
+    +setSenha(senha: String): void
+}
+
+' Universidade "1" -- "n" Curriculo
+Curriculo "1" -- "n" Curso
+Curso "1" -- "n" Disciplina
+Curso "1" -- "n" Aluno
+Curso "1" -- "n" Professor
+Disciplina "1" -- "n" Professor
+Aluno "1" -- "n" Matricula
+Professor "1" -- "n" Turma
+Disciplina "1" -- "1" Turma
+Matricula "1" -- "n" Turma
+@enduml

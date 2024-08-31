@@ -1,0 +1,115 @@
+@startuml
+class Universidade {
+    -curriculos: List<Curriculo>
+}
+
+class Curriculo {
+    -cursos: List<Curso>
+}
+
+class Curso extends Credito {
+    -nome: String
+    -creditos: int
+    -cargaHoraria: int
+    -disciplinas: List<Disciplina>
+}
+
+class Disciplina extends Credito {
+    -nome: String
+    -numeroMinimoAlunos: int
+    -numeroMaximoAlunos: int
+    -cargaHoraria: int
+    -status: String
+    -professorResponsavel: Professor
+    -alunosInscritos: List<Aluno>
+    -preRequisitos: List<Disciplina>
+    -coRequisitos: List<Disciplina>
+}
+
+class Aluno extends Usuario {
+    -curso: Curso
+    -matriculas: List<Matrícula>
+    +visualizarDisciplinasMatriculadas(): void
+    +matricularEmDisciplina(): void
+    +autenticar(login: String, senha: String): Aluno
+}
+
+class Professor extends Usuario {
+    -disciplinas: List<Disciplina>
+    +visualizarDisciplinasMinistradas(): void
+    +visualizarAlunosPorDisciplinas(): void
+    +gerenciarNotasAlunos(): void
+    +autenticar(login: String, senha: String): Professor
+}
+
+class Secretaria extends Usuario {
+    +gerirCurriculoSemestral(curriculo: Curriculo): void
+    +cadastrarAluno()  : Aluno
+    +cadastrarProfessor()  : Professor
+    +cadastrarDisciplina()  : Disciplina
+    +autenticar(login: String, senha: String): Secretaria
+}
+
+class Matrícula {
+    -dataMatricula: Date
+    -disciplina: Disciplina
+    -aluno: Aluno
+    +notificarCobranca(aluno: Aluno, dataMatricula: Date): void
+}
+
+class Turma {
+    -numeroMinimoAlunos: int
+    -numeroMaximoAlunos: int
+    -ano: int
+    -semestre: int
+    -disciplina: Disciplina
+    -professor: Professor
+    -status: Boolean
+    -alunosInscritos: List<Aluno>
+}
+
+interface Credito {
+    -cargaHoraria: int
+}
+
+class Unidade extends Object {
+    -nome: String
+    -pessoas: List<Usuario>
+    +adicionarPessoa(pessoa: Usuario): void
+    +getPessoas(): List<Usuario>
+    +getNome(): String
+    +setNome(nome: String): void
+}
+
+class Usuario extends Object {
+    -nome: String
+    -login: String
+    -senha: String
+    +getNome(): String
+    +getLogin(): String
+    +getSenha(): String
+    +setNome(nome: String): void
+    +setLogin(login: String): void
+    +setSenha(senha: String): void
+}
+
+class Object {
+    -id: int
+    -personIdGenerator: static int
+    -unidadeIdGenerator: static int
+    +getId(): int
+}
+
+Universidade "1" -- "n" Curriculo
+Curriculo "1" -- "n" Curso
+Curso "1" -- "n" Disciplina
+Curso "1" -- "n" Aluno
+Curso "1" -- "n" Professor
+Disciplina "1" -- "n" Aluno
+Disciplina "1" -- "n" Professor
+Aluno "1" -- "n" Matrícula
+Professor "1" -- "n" Turma
+Disciplina "1" -- "1" Turma
+Turma "3" -- "60" Aluno
+Aluno "1" -- "n" Turma
+@enduml

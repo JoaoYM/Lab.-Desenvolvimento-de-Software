@@ -7,18 +7,19 @@ class Curriculo {
     -cursos: List<Curso>
 }
 
-class Curso implements Credito {
+class Curso {
     -nome: String
-    -creditos: int
+    -creditos: Credito
     -cargaHoraria: int
     -disciplinas: List<Disciplina>
 }
 
-class Disciplina implements Credito {
+class Disciplina {
     -nome: String
     -numeroMinimoAlunos: int
     -numeroMaximoAlunos: int
     -cargaHoraria: int
+    -creditos: Credito
     -status: String
     -professorResponsavel: Professor
     -alunosInscritos: List<Aluno>
@@ -26,35 +27,8 @@ class Disciplina implements Credito {
     -coRequisitos: List<Disciplina>
 }
 
-interface Usuario {
-    -nome: String
-    -senha: String
-}
-
-class Aluno implements Usuario {
-    -nome: String
-    -senha: String
-    -curso: Curso
-    -matriculas: List<Matrícula>
-}
-
-class Professor implements Usuario {
-    -nome: String
-    -senha: String
-    -disciplinas: List<Disciplina>
-    +visualizarMatriculas(disciplina: Disciplina): List<Aluno>
-}
-
-class Secretaria implements Usuario {
-    -nome: String
-    +gerirCurriculoSemestral(curriculo: Curriculo)
-    +notificarCobranca(aluno: Aluno, semestre: String)
-}
-
-class Matrícula {
-    -dataMatricula: Date
-    -disciplina: Disciplina
-    -aluno: Aluno
+interface Credito {
+    -quantidadeCreditos: int
 }
 
 class Turma {
@@ -62,10 +36,34 @@ class Turma {
     -semestre: int
     -disciplina: Disciplina
     -professor: Professor
+    -alunosInscritos: List<Aluno>
 }
 
-interface Credito {
-    -cargaHoraria: int
+interface Usuario {
+    -nome: String
+    -senha: String
+}
+
+class Aluno {
+    -curso: Curso
+    -matriculas: List<Matrícula>
+}
+
+class Professor {
+    -disciplinas: List<Disciplina>
+    +visualizarMatriculas(disciplina: Disciplina): List<Aluno>
+}
+
+class Secretaria {
+    -nome: String
+    +geriCurriculoSemestral(curriculo: Curriculo)
+    +notificarCobranca(aluno: Aluno, semestre: String)
+}
+
+class Matrícula {
+    -dataMatricula: Date
+    -disciplina: Disciplina
+    -aluno: Aluno
 }
 
 Universidade "1" -- "1" Curriculo
@@ -76,4 +74,9 @@ Disciplina "1" -- "0..*" Matrícula
 Aluno "1" -- "0..*" Matrícula
 Professor "0..*" -- "0..*" Disciplina
 Disciplina "1" -- "1" Turma
+Curso *-- Credito
+Disciplina *-- Credito
+Usuario <|-- Aluno
+Usuario <|-- Professor
+
 @enduml

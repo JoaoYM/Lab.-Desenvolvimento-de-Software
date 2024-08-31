@@ -9,4 +9,10 @@ public class Matricula {
     private Date dataMatricula;
     private Disciplina disciplina;
     private Aluno aluno;
+
+    public void notificarCobranca(Aluno aluno,  String dataMatricula){
+        System.out.println("Notificação concluída!");
+    }
 }
+
+
