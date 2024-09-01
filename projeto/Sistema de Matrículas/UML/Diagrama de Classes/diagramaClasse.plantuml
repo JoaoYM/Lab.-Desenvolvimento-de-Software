@@ -1,87 +1,78 @@
 @startuml
-class Universidade {
-    -curriculos: List<Curriculo>
+
+class App {
+    +CRUD (Aluno)
+    +CRUD (Professor)
+    +CRUD (Secretaria)
+    +CRUD (Disciplinas)
 }
 
 class Curriculo {
-    -cursos: List<Curso>
+   -codigo: String
 }
 
-class Curso extends Credito {
+class Curso {
+    -codigo: int
     -nome: String
-    -creditos: int
+    +Curso(nome: String, creditos: Credito)
+}
+
+
+class Disciplina{
+    -nome: String
     -cargaHoraria: int
-    -disciplinas: List<Disciplina>
-}
-
-class Disciplina extends Credito {
-    -nome: String
+    -creditos: int
+    -curso: Curso
     -numeroMinimoAlunos: int
     -numeroMaximoAlunos: int
-    -cargaHoraria: int
-    -status: String
-    -professorResponsavel: Professor
-    -alunosInscritos: List<Aluno>
     -preRequisitos: List<Disciplina>
     -coRequisitos: List<Disciplina>
+    +Disciplina(nome: String, cargaHoraria: int)
+    +Disciplina()
+    +matricularAluno(aluno: Aluno)
+    +desmatricularAluno(aluno: Aluno)
+    +CRUD (Disciplinas)
+    +toString()
+    +fromString()
 }
 
-class Aluno extends Usuario {
-    -curso: Curso
-    -matriculas: List<Matrícula>
-    +visualizarDisciplinasMatriculadas(): void
-    +matricularEmDisciplina(): void
-    +autenticar(login: String, senha: String): Aluno
-}
-
-class Professor extends Usuario {
-    -disciplinas: List<Disciplina>
-    +visualizarDisciplinasMinistradas(): void
-    +visualizarAlunosPorDisciplinas(): void
-    +gerenciarNotasAlunos(): void
-    +autenticar(login: String, senha: String): Professor
-}
-
-class Secretaria extends Usuario {
-    +gerirCurriculoSemestral(curriculo: Curriculo): void
-    +cadastrarAluno()  : Aluno
-    +cadastrarProfessor()  : Professor
-    +cadastrarDisciplina()  : Disciplina
-    +autenticar(login: String, senha: String): Secretaria
-}
-
-class Matrícula {
+class Matricula {
     -dataMatricula: Date
-    -disciplina: Disciplina
     -aluno: Aluno
+    -valor: Double
     +notificarCobranca(aluno: Aluno, dataMatricula: Date): void
+    +CRUD (Matricula)
+}
+
+class Professor implements Usuario {
+    +autenticar(login: String, senha: String): Professor
+    +CRUD (Professor)
+}
+
+
+class Aluno implements Usuario {
+    -curso: Curso
+    -matriculas: List<Matricula>
+    +autenticar(login: String, senha: String): Aluno
+    +CRUD (Aluno)
+}
+
+
+class Secretaria implements Usuario {
+    +autenticar(login: String, senha: String): Secretaria
+    +CRUD (Secretaria)
 }
 
 class Turma {
-    -numeroMinimoAlunos: int
-    -numeroMaximoAlunos: int
     -ano: int
     -semestre: int
     -disciplina: Disciplina
     -professor: Professor
-    -status: Boolean
-    -alunosInscritos: List<Aluno>
+    -status: Enum(Aberta, Fechada, Concluída)
+    -matriculas: List<Matriculas>
 }
 
-interface Credito {
-    -cargaHoraria: int
-}
-
-class Unidade extends Object {
-    -nome: String
-    -pessoas: List<Usuario>
-    +adicionarPessoa(pessoa: Usuario): void
-    +getPessoas(): List<Usuario>
-    +getNome(): String
-    +setNome(nome: String): void
-}
-
-class Usuario extends Object {
+interface Usuario{
     -nome: String
     -login: String
     -senha: String
@@ -93,23 +84,22 @@ class Usuario extends Object {
     +setSenha(senha: String): void
 }
 
-class Object {
-    -id: int
-    -personIdGenerator: static int
-    -unidadeIdGenerator: static int
-    +getId(): int
-}
-
-Universidade "1" -- "n" Curriculo
+' Universidade "1" -- "n" Curriculo
 Curriculo "1" -- "n" Curso
 Curso "1" -- "n" Disciplina
 Curso "1" -- "n" Aluno
 Curso "1" -- "n" Professor
-Disciplina "1" -- "n" Aluno
 Disciplina "1" -- "n" Professor
-Aluno "1" -- "n" Matrícula
+Aluno "1" -- "n" Matricula
 Professor "1" -- "n" Turma
 Disciplina "1" -- "1" Turma
-Turma "3" -- "60" Aluno
-Aluno "1" -- "n" Turma
+Matricula "1" -- "n" Turma
+
+
+' Relações da classe App
+Professor   <|--  App 
+Aluno       <|--  App 
+Secretaria  <|--  App 
+Disciplina  <|--  App 
+
 @enduml
