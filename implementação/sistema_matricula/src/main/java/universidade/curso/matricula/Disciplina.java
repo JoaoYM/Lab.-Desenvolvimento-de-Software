@@ -35,7 +35,7 @@ public class Disciplina {
     }
 
     // Método para interação com o terminal para input dos dados
-    public static Disciplina inputDadosDisciplina() {
+    public static Disciplina inputDadosDisciplina() throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Digite o nome da disciplina:");
@@ -53,8 +53,24 @@ public class Disciplina {
         // Para este exemplo, assumiremos que o curso já existe
 
         // Implementar
+        System.out.println("Informe o nome do curso relativo a disciplina: ");
+        
         Curso curso = new Curso();  // Isso deveria ser substituído por uma lógica de seleção de curso
 
+        curso.listarCursos();
+
+        System.out.println("Para cadastrar um novo curso digite 1: ");
+
+        String opcao =  scanner.nextLine();
+
+        if(opcao.equals("1")){
+            curso = curso.criarCursoInterativo();
+        }else if(curso.pesquisarCursoPorNome(opcao.trim()) == null){
+            throw new Exception("Curso não encontrado!");
+        }else{
+            curso = curso.pesquisarCursoPorNome(opcao.trim());
+        }
+        
         Disciplina novaDisciplina = new Disciplina(nome, cargaHoraria, curso);
         novaDisciplina.setCreditos(creditos);
 
@@ -65,7 +81,7 @@ public class Disciplina {
 
     // Métodos CRUD
 
-    public static void criarDisciplina() {
+    public static void criarDisciplina() throws Exception {
         Disciplina novaDisciplina = inputDadosDisciplina();
         FileOperations.salvarObjeto(ARQUIVO_DISCIPLINAS, novaDisciplina);
     }

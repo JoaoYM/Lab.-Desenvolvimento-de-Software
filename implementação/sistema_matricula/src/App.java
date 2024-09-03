@@ -52,7 +52,7 @@ public class App {
         }
     }
 
-    private static void menuSecretaria() {
+    private static void menuSecretaria() throws Exception {
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
@@ -85,7 +85,7 @@ public class App {
         } while (opcao != 0);
     }
 
-    private static void rotinasGerenciamento(String entidade) {
+    private static void rotinasGerenciamento(String entidade) throws Exception {
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
@@ -193,7 +193,6 @@ public class App {
                 case 1:
                     System.out.println("Digite o nome da disciplina para matrícula:");
                     String disciplinaMatricula = scanner.nextLine();
-                    // Lógica para matricular aluno na disciplina
                     Disciplina disciplinaMatricular = buscarDisciplinaPorNome(disciplinaMatricula);
                     if (disciplinaMatricular != null) {
                         disciplinaMatricular.matricularAluno(aluno);
@@ -204,7 +203,6 @@ public class App {
                 case 2:
                     System.out.println("Digite o nome da disciplina para cancelar matrícula:");
                     String disciplinaDesmatricula = scanner.nextLine();
-                    // Lógica para cancelar matrícula
                     Disciplina disciplinaDesmatricular = buscarDisciplinaPorNome(disciplinaDesmatricula);
                     if (disciplinaDesmatricular != null) {
                         disciplinaDesmatricular.desmatricularAluno(aluno);

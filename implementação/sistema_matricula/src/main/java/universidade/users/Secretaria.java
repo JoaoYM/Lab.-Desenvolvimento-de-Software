@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Secretaria implements Usuario {
-    private static final String ARQUIVO_SECRETARIAS = "./src/main/java/universidade/assets/professores.txt";
+    private static final String ARQUIVO_SECRETARIAS = "./src/main/java/universidade/assets/secretarias.txt";
 
     private String nome;
     private String login;
     private String senha;
-    private String teste;
 
     public Secretaria(String nome, String login, String senha, int idSessao) {
         this.nome = nome;
