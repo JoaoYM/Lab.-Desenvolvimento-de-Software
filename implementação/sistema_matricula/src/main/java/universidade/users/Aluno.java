@@ -8,22 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Aluno extends Usuario {
+public class Aluno implements Usuario {
     private static final String ARQUIVO_ALUNOS = "./src/main/java/universidade/assets/alunos.txt";
 
-    private List<Disciplina> disciplinasObrigatorias;
-    private List<Disciplina> disciplinasOptativas;
+
+    private String nome;
+    private String login;
+    private String senha;
+
 
     public Aluno() {
-        super("", "", "");
-        this.disciplinasObrigatorias = new ArrayList<>();
-        this.disciplinasOptativas = new ArrayList<>();
+        this("", "", "");
     }
 
     public Aluno(String nome, String login, String senha) {
-        super(nome, login, senha);
-        this.disciplinasObrigatorias = new ArrayList<>();
-        this.disciplinasOptativas = new ArrayList<>();
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
     }
 
     public static Aluno criarAlunoInterativo() {
@@ -36,32 +37,6 @@ public class Aluno extends Usuario {
         String senha = scan.nextLine();
 
         return new Aluno(nome, login, senha);
-    }
-
-    public void matricularEmDisciplina(Disciplina disciplina, boolean obrigatoria) {
-        if (obrigatoria) {
-            if (disciplinasObrigatorias.size() < 4 && !disciplinasObrigatorias.contains(disciplina)) {
-                disciplinasObrigatorias.add(disciplina);
-                disciplina.matricularAluno(this);
-            } else {
-                System.out.println("Não é possível matricular em mais disciplinas obrigatórias.");
-            }
-        } else {
-            if (disciplinasOptativas.size() < 2 && !disciplinasOptativas.contains(disciplina)) {
-                disciplinasOptativas.add(disciplina);
-                disciplina.matricularAluno(this);
-            } else {
-                System.out.println("Não é possível matricular em mais disciplinas optativas.");
-            }
-        }
-    }
-
-    public void cancelarMatricula(Disciplina disciplina) {
-        if (disciplinasObrigatorias.remove(disciplina) || disciplinasOptativas.remove(disciplina)) {
-            disciplina.desmatricularAluno(this);
-        } else {
-            System.out.println("Matrícula não encontrada.");
-        }
     }
 
     public static void criarAluno() {
@@ -102,5 +77,35 @@ public class Aluno extends Usuario {
             }
         }
         return null;
+    }
+
+    @Override
+    public String getNome() {
+        return nome;
+    }
+
+    @Override
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public String getLogin() {
+        return login;
+    }
+
+    @Override
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Override
+    public String getSenha() {
+        return senha;
+    }
+
+    @Override
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

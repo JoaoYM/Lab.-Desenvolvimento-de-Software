@@ -1,6 +1,6 @@
 package main.java.universidade.curso.matricula;
 
-import main.java.universidade.users.Aluno;
+import main.java.universidade.aluno.Matricula;
 import main.java.universidade.users.Professor;
 
 import java.util.ArrayList;
@@ -8,15 +8,18 @@ import java.util.List;
 
 public class Turma {
     private Disciplina disciplina;
-    private Professor professorResponsavel; // Add this attribute
-    private List<Aluno> alunosInscritos;
+    private Professor professorResponsavel;
+    private List<Matricula> matriculas;
     private int numeroMinimoAlunos;
     private int numeroMaximoAlunos;
     private String status;
+    private int ano;
+    private int semestre;
 
     public Turma(Disciplina disciplina) {
         this.disciplina = disciplina;
-        this.alunosInscritos = new ArrayList<>();
+        this.professorResponsavel = null;
+        this.matriculas = new ArrayList<>();
         this.numeroMinimoAlunos = 3;
         this.numeroMaximoAlunos = 60;
         this.status = "Aberta";
@@ -24,24 +27,24 @@ public class Turma {
 
     public Turma(Disciplina disciplina, Professor professorResponsavel) {
         this.disciplina = disciplina;
-        this.professorResponsavel = professorResponsavel; // Initialize it here
-        this.alunosInscritos = new ArrayList<>();
+        this.professorResponsavel = professorResponsavel;
+        this.matriculas = new ArrayList<>();
         this.numeroMinimoAlunos = 3;
         this.numeroMaximoAlunos = 60;
         this.status = "Aberta";
     }
 
-    public void addAluno(Aluno aluno) {
-        if (alunosInscritos.size() < numeroMaximoAlunos) {
-            alunosInscritos.add(aluno);
+    public void addMatricula(Matricula matricula) {
+        if (matriculas.size() < numeroMaximoAlunos) {
+            matriculas.add(matricula);
             atualizarStatus();
         } else {
-            System.out.println("Não é possível adicionar mais alunos. Limite atingido.");
+            System.out.println("Não é possível adicionar mais matrículas. Limite atingido.");
         }
     }
 
-    public boolean removeAluno(Aluno aluno) {
-        if (alunosInscritos.remove(aluno)) {
+    public boolean removeMatricula(Matricula matricula) {
+        if (matriculas.remove(matricula)) {
             atualizarStatus();
             return true;
         }
@@ -52,12 +55,12 @@ public class Turma {
         return professorResponsavel;
     }
 
-    public List<Aluno> getAlunosInscritos() {
-        return alunosInscritos;
+    public List<Matricula> getMatriculas() {
+        return matriculas;
     }
 
-    public int getNumeroDeAlunos() {
-        return alunosInscritos.size();
+    public int getNumeroDeMatriculas() {
+        return matriculas.size();
     }
 
     public int getNumeroMinimoAlunos() {
@@ -77,9 +80,9 @@ public class Turma {
     }
 
     private void atualizarStatus() {
-        if (alunosInscritos.size() >= numeroMinimoAlunos && alunosInscritos.size() < numeroMaximoAlunos) {
+        if (matriculas.size() >= numeroMinimoAlunos && matriculas.size() < numeroMaximoAlunos) {
             this.status = "Aberta";
-        } else if (alunosInscritos.size() >= numeroMaximoAlunos) {
+        } else if (matriculas.size() >= numeroMaximoAlunos) {
             this.status = "Fechada";
         }
     }

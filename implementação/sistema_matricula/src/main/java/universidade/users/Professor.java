@@ -9,73 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Professor extends Usuario {
+public class Professor implements Usuario {
     private static final String ARQUIVO_PROFESSORES = "./src/main/java/universidade/assets/professores.txt";
 
-    private List<Disciplina> disciplinasLecionadas;
-
+    private String nome;
+    private String login;
+    private String senha;
+    
     public Professor() {
-        super("", "", "");
-        this.disciplinasLecionadas = new ArrayList<>();
+        this("", "", "");
     }
 
     public Professor(String nome, String login, String senha) {
-        super(nome, login, senha);
-        this.disciplinasLecionadas = new ArrayList<>();
-    }
-
-    //public void adicionarDisciplina(Disciplina disciplina) {
-        //if (!disciplinasLecionadas.contains(disciplina)) {
-            //disciplinasLecionadas.add(disciplina);
-        //} else {
-            //System.out.println("Disciplina já está sendo lecionada por este professor.");
-        //}
-    //}
-
-    public void adicionarDisciplina(Disciplina disciplina) {
-        Turma novaTurma = new Turma(disciplina, this);
-        this.disciplinasLecionadas.add(disciplina);
-        disciplina.setProfessorResponsavel(this); // Define o professor responsável
-        disciplina.addTurma(novaTurma); // Adiciona a nova turma à lista de turmas da disciplina
-    }
-    
-
-    public void removerDisciplina(Disciplina disciplina) {
-        Turma turma = null;
-    
-        for (Turma t : disciplina.getTurmas()) { // Assuming Disciplina has a list of Turmas
-            if (t.getProfessorResponsavel().equals(this)) {
-                turma = t;
-                break;
-            }
-        }
-    
-        if (turma != null) {
-            this.disciplinasLecionadas.remove(disciplina);
-            disciplina.getTurmas().remove(turma); // Remove the Turma from the discipline
-            System.out.println("Disciplina removida com sucesso.");
-        } else {
-            System.out.println("Disciplina não encontrada para este professor.");
-        }
-    }
-
-    //public void removerDisciplina(Disciplina disciplina) {
-        //if (disciplinasLecionadas.remove(disciplina)) {
-            //System.out.println("Disciplina removida da lista de lecionadas.");
-        //} else {
-            //System.out.println("Disciplina não encontrada na lista de lecionadas.");
-        //}
-    //}
-
-    public void listarDisciplinasLecionadas() {
-        if (disciplinasLecionadas.isEmpty()) {
-            System.out.println("Este professor não está lecionando nenhuma disciplina no momento.");
-        } else {
-            System.out.println("Disciplinas lecionadas pelo professor " + getNome() + ":");
-            for (Disciplina disciplina : disciplinasLecionadas) {
-                System.out.println("- " + disciplina.getNome());
-            }
-        }
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
     }
 
     public static void criarProfessor() {
@@ -118,6 +66,36 @@ public class Professor extends Usuario {
     public static Professor fromString(String data) {
         String[] splitData = data.split(",");
         return new Professor(splitData[0], splitData[1], splitData[2]);
+    }
+
+    @Override
+    public String getNome() {
+        return nome;
+    }
+
+    @Override
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public String getLogin() {
+        return login;
+    }
+
+    @Override
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Override
+    public String getSenha() {
+        return senha;
+    }
+
+    @Override
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public static Professor autenticar(String login, String senha) {

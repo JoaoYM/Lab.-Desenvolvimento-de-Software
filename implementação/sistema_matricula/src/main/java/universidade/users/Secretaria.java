@@ -9,40 +9,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Secretaria extends Usuario implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private List<Integer> idsSessao;
+public class Secretaria implements Usuario {
+    private static final String ARQUIVO_SECRETARIAS = "./src/main/java/universidade/assets/professores.txt";
+
+    private String nome;
+    private String login;
+    private String senha;
 
     public Secretaria(String nome, String login, String senha, int idSessao) {
-        super(nome, login, senha);
-        this.idsSessao = new ArrayList<>();
-        this.idsSessao.add(idSessao);
-    }
-
-    public void addSessao(int idSessao) {
-        this.idsSessao.add(idSessao);
-    }
-
-    public List<Integer> getIdsSessao() {
-        return idsSessao;
-    }
-
-    public void gerirCurriculoSemestral(Curriculo curriculo) {
-        List<Disciplina> disciplinas = FileOperations.recuperarObjetos("./src/main/java/universidade/assets/disciplinas.txt", Disciplina.class);
-
-        for (Disciplina disciplina : disciplinas) {
-            System.out.println("Disciplina: " + disciplina.getNome());
-            System.out.println("Alunos Inscritos: " + disciplina.getTurma().getAlunosInscritos());
-        }
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
     }
 
     public static boolean autenticar(String login, String senha) {
-        // List<Secretaria> secretarias = FileOperations.recuperarObjetos(ARQUIVO_SECRETARIA, Aluno.class);
-        // for (Aluno aluno : secretarias) {
-        //     if (aluno.getLogin().equals(login) && aluno.getSenha().equals(senha)) {
-        //         return true;
-        //     }
-        // }
+        List<Secretaria> secretarias = FileOperations.recuperarObjetos(ARQUIVO_SECRETARIAS, Secretaria.class);
+        for (Secretaria aluno : secretarias) {
+            if (aluno.getLogin().equals(login) && aluno.getSenha().equals(senha)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -61,5 +47,35 @@ public class Secretaria extends Usuario implements Serializable {
 
     public Disciplina cadastrarDisciplina(){
         return new Disciplina();
+    }
+
+    @Override
+    public String getNome() {
+        return nome;
+    }
+
+    @Override
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public String getLogin() {
+        return login;
+    }
+
+    @Override
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Override
+    public String getSenha() {
+        return senha;
+    }
+
+    @Override
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

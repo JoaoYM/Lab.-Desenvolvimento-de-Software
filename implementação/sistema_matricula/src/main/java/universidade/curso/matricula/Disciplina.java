@@ -1,123 +1,6 @@
-// package main.java.universidade.curso.matricula;
-
-// import main.java.universidade.users.Aluno;
-// import main.java.universidade.users.Professor;
-// import main.java.universidade.utils.FileOperations;
-
-// import java.io.*;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Scanner;
-
-// public class Disciplina {
-//     private static final String ARQUIVO_DISCIPLINAS = "./src/main/java/universidade/assets/disciplinas.txt";
-
-//     private String nome;
-//     private int numeroMinimoAlunos;
-//     private int numeroMaximoAlunos;
-//     private int cargaHoraria;
-//     private List<Aluno> alunosInscritos;
-//     private List<Disciplina> preRequisitos;
-//     private List<Disciplina> coRequisitos;
-//     private Professor professorResponsavel;
-
-//     public Disciplina(String nome, int cargaHoraria) {
-//         this.nome = nome;
-//         this.cargaHoraria = cargaHoraria;
-//         this.numeroMinimoAlunos = 3;
-//         this.numeroMaximoAlunos = 60;
-//         this.alunosInscritos = new ArrayList<>();
-//         this.preRequisitos = new ArrayList<>();
-//         this.coRequisitos = new ArrayList<>();
-//     }
-
-//     public Disciplina() {
-//         Scanner scan = new Scanner(System.in);
-
-//         System.out.println("Digite o nome: ");
-//         this.nome = scan.nextLine();
-//         System.out.println("Digite a carga horária: ");
-//         this.cargaHoraria = Integer.parseInt(scan.nextLine());
-
-//         this.numeroMinimoAlunos = 3;
-//         this.numeroMaximoAlunos = 60;
-//         this.alunosInscritos = new ArrayList<>();
-//         this.preRequisitos = new ArrayList<>();
-//         this.coRequisitos = new ArrayList<>();
-//     }
-
-//     public void addAluno(Aluno aluno) {
-//         if (alunosInscritos.size() < numeroMaximoAlunos) {
-//             alunosInscritos.add(aluno);
-//             System.out.println("Aluno adicionado à disciplina: " + nome);
-//         } else {
-//             System.out.println("Não é possível adicionar mais alunos. Limite atingido.");
-//         }
-//     }
-
-//     public void removeAluno(Aluno aluno) {
-//         if (alunosInscritos.remove(aluno)) {
-//             System.out.println("Aluno removido da disciplina: " + nome);
-//         } else {
-//             System.out.println("Aluno não está matriculado nesta disciplina.");
-//         }
-//     }
-
-//     public List<Aluno> getAlunosInscritos() {
-//         return alunosInscritos;
-//     }
-
-//     public String getNome() {
-//         return this.nome;
-//     }
-
-//     //--------------------------------------------------------------------||
-//     //                                  CRUD                              ||
-//     //--------------------------------------------------------------------||
-
-//     // Criar nova disciplina
-//     public static void criarDisciplina() {
-//         Disciplina novaDisciplina = new Disciplina();
-//         FileOperations.salvarObjeto(ARQUIVO_DISCIPLINAS, novaDisciplina);
-//     }
-
-//     // Listar todas as disciplinas
-//     public static void listarDisciplinas() {
-//         List<Disciplina> disciplinas = FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
-//         for (Disciplina disciplina : disciplinas) {
-//             System.out.println(disciplina.getNome());
-//         }
-//     }
-
-//     // Atualizar disciplina
-//     public static void atualizarDisciplina(Disciplina disciplinaAtualizada) {
-//         FileOperations.atualizarObjeto(ARQUIVO_DISCIPLINAS, disciplinaAtualizada, Disciplina.class);
-//     }
-
-//     // Deletar disciplina
-//     public static void deletarDisciplina(Disciplina disciplina) {
-//         FileOperations.deletarObjeto(ARQUIVO_DISCIPLINAS, disciplina, Disciplina.class);
-//     }
-
-//     @Override
-//     public String toString() {
-//         return nome + "," + cargaHoraria + "," + numeroMinimoAlunos + "," + numeroMaximoAlunos;
-//     }
-
-//     public static Disciplina fromString(String data) {
-//         String[] splitData = data.split(",");
-//         Disciplina disciplina = new Disciplina(splitData[0], Integer.parseInt(splitData[1]));
-//         disciplina.numeroMinimoAlunos = Integer.parseInt(splitData[2]);
-//         disciplina.numeroMaximoAlunos = Integer.parseInt(splitData[3]);
-//         return disciplina;
-//     }
-// }
-
-
 package main.java.universidade.curso.matricula;
 
-import main.java.universidade.users.Aluno;
-import main.java.universidade.users.Professor;
+import main.java.universidade.curso.Curso;
 import main.java.universidade.utils.FileOperations;
 
 import java.util.ArrayList;
@@ -129,96 +12,61 @@ public class Disciplina {
 
     private String nome;
     private int cargaHoraria;
-    private int ano;
-    private int semestre;
-    private Turma turma;
-    private List<Turma> turmas;
+    private int creditos;
+    private Curso curso;
     private List<Disciplina> preRequisitos;
     private List<Disciplina> coRequisitos;
-    private Professor professorResponsavel;
+    private Turma turma;
 
-    public Disciplina(String nome, int cargaHoraria) {
+    // Construtor padrão para facilitar a criação via método de input
+    public Disciplina() {
+        this.preRequisitos = new ArrayList<>();
+        this.coRequisitos = new ArrayList<>();
+    }
+
+    public Disciplina(String nome, int cargaHoraria, Curso curso) {
         this.nome = nome;
         this.cargaHoraria = cargaHoraria;
-        this.preRequisitos = new ArrayList<>();
-        this.coRequisitos = new ArrayList<>();
-        this.turma = new Turma(this);
-        this.turmas = new ArrayList<>();
-    }
-
-    public Disciplina() {
-        Scanner scan = new Scanner(System.in);
-
-        System.out.println("Digite o nome: ");
-        this.nome = scan.nextLine();
-        System.out.println("Digite a carga horária: ");
-        this.cargaHoraria = Integer.parseInt(scan.nextLine());
-
+        this.creditos = 0; // Assumindo um valor padrão
+        this.curso = curso;
         this.preRequisitos = new ArrayList<>();
         this.coRequisitos = new ArrayList<>();
         this.turma = new Turma(this);
     }
 
-    public void matricularAluno(Aluno aluno) {
-        if (turma.getNumeroDeAlunos() < turma.getNumeroMaximoAlunos()) {
-            turma.addAluno(aluno);
-            System.out.println("Aluno matriculado na disciplina: " + nome);
-        } else {
-            System.out.println("Não é possível matricular mais alunos. Limite atingido.");
-        }
-    }
+    // Método para interação com o terminal para input dos dados
+    public static Disciplina inputDadosDisciplina() {
+        Scanner scanner = new Scanner(System.in);
 
-    public void desmatricularAluno(Aluno aluno) {
-        if (turma.removeAluno(aluno)) {
-            System.out.println("Aluno desmatriculado da disciplina: " + nome);
-        } else {
-            System.out.println("Aluno não está matriculado nesta disciplina.");
-        }
-    }
+        System.out.println("Digite o nome da disciplina:");
+        String nome = scanner.nextLine();
 
-    public void addTurma(Turma turma) {
-        turmas.add(turma);
-    }
+        System.out.println("Digite a carga horária da disciplina:");
+        int cargaHoraria = scanner.nextInt();
+        scanner.nextLine();  // Consumir a nova linha
 
-    public Turma getTurma() {
-        return turma;
-    }
+        System.out.println("Digite o número de créditos da disciplina:");
+        int creditos = scanner.nextInt();
+        scanner.nextLine();  // Consumir a nova linha
 
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
+        // Aqui você deve implementar a lógica para selecionar o curso ou criar um novo
+        // Para este exemplo, assumiremos que o curso já existe
 
-    public String getNome() {
-        return this.nome;
-    }
+        // Implementar
+        Curso curso = new Curso();  // Isso deveria ser substituído por uma lógica de seleção de curso
 
-    public Professor getProfessorResponsavel() {
-        return this.professorResponsavel;
-    }
+        Disciplina novaDisciplina = new Disciplina(nome, cargaHoraria, curso);
+        novaDisciplina.setCreditos(creditos);
 
-    public static void listarDisciplinasPorProfessor(Professor professor) {
-        List<Disciplina> disciplinas = FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
-        boolean encontrouDisciplina = false;
-        for (Disciplina disciplina : disciplinas) {
-            if (disciplina.getProfessorResponsavel() != null && disciplina.getProfessorResponsavel().equals(professor)) {
-                System.out.println(disciplina.getNome());
-                encontrouDisciplina = true;
-            }
-        }
-        if (!encontrouDisciplina) {
-            System.out.println("O professor " + professor.getNome() + " não está lecionando nenhuma disciplina no momento.");
-        }
-    }
+        // Lógica para input de pré-requisitos e co-requisitos pode ser adicionada aqui
 
-    public void setProfessorResponsavel(Professor professor) {
-        this.professorResponsavel = professor;
+        return novaDisciplina;
     }
-    
 
     // Métodos CRUD
 
     public static void criarDisciplina() {
-        Disciplina novaDisciplina = new Disciplina();
+        Disciplina novaDisciplina = inputDadosDisciplina();
         FileOperations.salvarObjeto(ARQUIVO_DISCIPLINAS, novaDisciplina);
     }
 
@@ -248,7 +96,65 @@ public class Disciplina {
 
     public static Disciplina fromString(String data) {
         String[] splitData = data.split(",");
-        Disciplina disciplina = new Disciplina(splitData[0], Integer.parseInt(splitData[1]));
+        Disciplina disciplina = new Disciplina(splitData[0], Integer.parseInt(splitData[1]), null); // Curso deve ser atualizado com lógica correta
         return disciplina;
+    }
+
+    // Getters e Setters adicionais
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getCargaHoraria() {
+        return cargaHoraria;
+    }
+
+    public void setCargaHoraria(int cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
+    }
+
+    public int getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(int creditos) {
+        this.creditos = creditos;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public List<Disciplina> getPreRequisitos() {
+        return preRequisitos;
+    }
+
+    public void setPreRequisitos(List<Disciplina> preRequisitos) {
+        this.preRequisitos = preRequisitos;
+    }
+
+    public List<Disciplina> getCoRequisitos() {
+        return coRequisitos;
+    }
+
+    public void setCoRequisitos(List<Disciplina> coRequisitos) {
+        this.coRequisitos = coRequisitos;
+    }
+
+    public Turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(Turma turma) {
+        this.turma = turma;
     }
 }

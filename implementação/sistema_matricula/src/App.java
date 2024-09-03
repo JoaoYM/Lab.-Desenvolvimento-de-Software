@@ -162,28 +162,11 @@ public class App {
 
             switch (opcao) {
                 case 1:
-                    professor.listarDisciplinasLecionadas();
                     break;
                 case 2:
-                    System.out.println("Digite o nome da disciplina a adicionar:");
-                    String disciplinaNomeAdicionar = scanner.nextLine();
-                    Disciplina disciplinaAdicionar = buscarDisciplinaPorNome(disciplinaNomeAdicionar);
-                    if (disciplinaAdicionar != null) {
-                        professor.adicionarDisciplina(disciplinaAdicionar);
-                    } else {
-                        System.out.println("Disciplina não encontrada.");
-                    }
-                    break;
+                 
                 case 3:
-                    System.out.println("Digite o nome da disciplina a remover:");
-                    String disciplinaNomeRemover = scanner.nextLine();
-                    Disciplina disciplinaRemover = buscarDisciplinaPorNome(disciplinaNomeRemover);
-                    if (disciplinaRemover != null) {
-                        professor.removerDisciplina(disciplinaRemover);
-                    } else {
-                        System.out.println("Disciplina não encontrada.");
-                    }
-                    break;
+                    
                 case 0:
                     System.out.println("Saindo...");
                     break;
