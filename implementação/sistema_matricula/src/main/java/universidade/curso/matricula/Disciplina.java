@@ -132,6 +132,7 @@ public class Disciplina {
     private int ano;
     private int semestre;
     private Turma turma;
+    private List<Turma> turmas;
     private List<Disciplina> preRequisitos;
     private List<Disciplina> coRequisitos;
     private Professor professorResponsavel;
@@ -142,6 +143,7 @@ public class Disciplina {
         this.preRequisitos = new ArrayList<>();
         this.coRequisitos = new ArrayList<>();
         this.turma = new Turma(this);
+        this.turmas = new ArrayList<>();
     }
 
     public Disciplina() {
@@ -174,13 +176,44 @@ public class Disciplina {
         }
     }
 
+    public void addTurma(Turma turma) {
+        turmas.add(turma);
+    }
+
     public Turma getTurma() {
         return turma;
+    }
+
+    public List<Turma> getTurmas() {
+        return turmas;
     }
 
     public String getNome() {
         return this.nome;
     }
+
+    public Professor getProfessorResponsavel() {
+        return this.professorResponsavel;
+    }
+
+    public static void listarDisciplinasPorProfessor(Professor professor) {
+        List<Disciplina> disciplinas = FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
+        boolean encontrouDisciplina = false;
+        for (Disciplina disciplina : disciplinas) {
+            if (disciplina.getProfessorResponsavel() != null && disciplina.getProfessorResponsavel().equals(professor)) {
+                System.out.println(disciplina.getNome());
+                encontrouDisciplina = true;
+            }
+        }
+        if (!encontrouDisciplina) {
+            System.out.println("O professor " + professor.getNome() + " não está lecionando nenhuma disciplina no momento.");
+        }
+    }
+
+    public void setProfessorResponsavel(Professor professor) {
+        this.professorResponsavel = professor;
+    }
+    
 
     // Métodos CRUD
 
@@ -194,6 +227,10 @@ public class Disciplina {
         for (Disciplina disciplina : disciplinas) {
             System.out.println(disciplina.getNome());
         }
+    }
+
+    public static List<Disciplina> listarDisciplinasList() {
+        return FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
     }
 
     public static void atualizarDisciplina(Disciplina disciplinaAtualizada) {

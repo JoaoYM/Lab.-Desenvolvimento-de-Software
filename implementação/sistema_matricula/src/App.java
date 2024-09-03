@@ -1,4 +1,7 @@
+import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.GroupLayout.Alignment;
 
 import main.java.universidade.curso.matricula.Disciplina;
 import main.java.universidade.users.Aluno;
@@ -22,15 +25,17 @@ public class App {
 
         switch (origem) {
             case 1:
-                if (Professor.autenticar(login, senha)) {
-                    menuProfessor();
+                Professor professor = Professor.autenticar(login, senha);
+                if (professor != null) {
+                    menuProfessor(professor);
                 } else {
                     System.out.println("Login ou senha incorretos.");
                 }
                 break;
             case 2:
-                if (Aluno.autenticar(login, senha)) {
-                    menuAluno();
+                Aluno aluno = Aluno.autenticar(login, senha);
+                if (aluno != null) {
+                    menuAluno(aluno);
                 } else {
                     System.out.println("Login ou senha incorretos.");
                 }
@@ -141,7 +146,7 @@ public class App {
         } while (opcao != 0);
     }
 
-    private static void menuProfessor() {
+    private static void menuProfessor(Professor professor) {
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
@@ -157,17 +162,27 @@ public class App {
 
             switch (opcao) {
                 case 1:
-                    Professor.listarProfessores();
+                    professor.listarDisciplinasLecionadas();
                     break;
                 case 2:
                     System.out.println("Digite o nome da disciplina a adicionar:");
-                    String disciplinaAdicionar = scanner.nextLine();
-                    // Lógica para adicionar disciplina ao professor
+                    String disciplinaNomeAdicionar = scanner.nextLine();
+                    Disciplina disciplinaAdicionar = buscarDisciplinaPorNome(disciplinaNomeAdicionar);
+                    if (disciplinaAdicionar != null) {
+                        professor.adicionarDisciplina(disciplinaAdicionar);
+                    } else {
+                        System.out.println("Disciplina não encontrada.");
+                    }
                     break;
                 case 3:
                     System.out.println("Digite o nome da disciplina a remover:");
-                    String disciplinaRemover = scanner.nextLine();
-                    // Lógica para remover disciplina do professor
+                    String disciplinaNomeRemover = scanner.nextLine();
+                    Disciplina disciplinaRemover = buscarDisciplinaPorNome(disciplinaNomeRemover);
+                    if (disciplinaRemover != null) {
+                        professor.removerDisciplina(disciplinaRemover);
+                    } else {
+                        System.out.println("Disciplina não encontrada.");
+                    }
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -178,7 +193,7 @@ public class App {
         } while (opcao != 0);
     }
 
-    private static void menuAluno() {
+    private static void menuAluno(Aluno aluno) {
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
@@ -196,11 +211,23 @@ public class App {
                     System.out.println("Digite o nome da disciplina para matrícula:");
                     String disciplinaMatricula = scanner.nextLine();
                     // Lógica para matricular aluno na disciplina
+                    Disciplina disciplinaMatricular = buscarDisciplinaPorNome(disciplinaMatricula);
+                    if (disciplinaMatricular != null) {
+                        disciplinaMatricular.matricularAluno(aluno);
+                    } else {
+                        System.out.println("Disciplina não encontrada.");
+                    }
                     break;
                 case 2:
                     System.out.println("Digite o nome da disciplina para cancelar matrícula:");
-                    String disciplinaCancelar = scanner.nextLine();
+                    String disciplinaDesmatricula = scanner.nextLine();
                     // Lógica para cancelar matrícula
+                    Disciplina disciplinaDesmatricular = buscarDisciplinaPorNome(disciplinaDesmatricula);
+                    if (disciplinaDesmatricular != null) {
+                        disciplinaDesmatricular.desmatricularAluno(aluno);
+                    } else {
+                        System.out.println("Disciplina não encontrada.");
+                    }
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -209,5 +236,15 @@ public class App {
                     System.out.println("Opção inválida. Tente novamente.");
             }
         } while (opcao != 0);
+    }
+
+    private static Disciplina buscarDisciplinaPorNome(String nome) {
+        List<Disciplina> disciplinas = Disciplina.listarDisciplinasList();
+        for (Disciplina disciplina : disciplinas) {
+            if (disciplina.getNome().equals(nome)) {
+                return disciplina;
+            }
+        }
+        return null;
     }
 }

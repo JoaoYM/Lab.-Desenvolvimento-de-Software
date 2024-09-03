@@ -94,13 +94,13 @@ public class Aluno extends Usuario {
         return new Aluno(splitData[0], splitData[1], splitData[2]);
     }
 
-    public static boolean autenticar(String login, String senha) {
+    public static Aluno autenticar(String login, String senha) {
         List<Aluno> alunos = FileOperations.recuperarObjetos(ARQUIVO_ALUNOS, Aluno.class);
         for (Aluno aluno : alunos) {
             if (aluno.getLogin().equals(login) && aluno.getSenha().equals(senha)) {
-                return true;
+                return aluno;
             }
         }
-        return false;
+        return null;
     }
 }

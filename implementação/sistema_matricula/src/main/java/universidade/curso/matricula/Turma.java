@@ -1,12 +1,14 @@
 package main.java.universidade.curso.matricula;
 
 import main.java.universidade.users.Aluno;
+import main.java.universidade.users.Professor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Turma {
     private Disciplina disciplina;
+    private Professor professorResponsavel; // Add this attribute
     private List<Aluno> alunosInscritos;
     private int numeroMinimoAlunos;
     private int numeroMaximoAlunos;
@@ -14,6 +16,15 @@ public class Turma {
 
     public Turma(Disciplina disciplina) {
         this.disciplina = disciplina;
+        this.alunosInscritos = new ArrayList<>();
+        this.numeroMinimoAlunos = 3;
+        this.numeroMaximoAlunos = 60;
+        this.status = "Aberta";
+    }
+
+    public Turma(Disciplina disciplina, Professor professorResponsavel) {
+        this.disciplina = disciplina;
+        this.professorResponsavel = professorResponsavel; // Initialize it here
         this.alunosInscritos = new ArrayList<>();
         this.numeroMinimoAlunos = 3;
         this.numeroMaximoAlunos = 60;
@@ -35,6 +46,10 @@ public class Turma {
             return true;
         }
         return false;
+    }
+
+    public Professor getProfessorResponsavel() {
+        return professorResponsavel;
     }
 
     public List<Aluno> getAlunosInscritos() {
