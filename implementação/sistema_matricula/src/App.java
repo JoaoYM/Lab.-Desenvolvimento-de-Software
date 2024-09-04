@@ -1,8 +1,10 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.GroupLayout.Alignment;
 
+import main.java.universidade.aluno.Matricula;
 import main.java.universidade.curso.matricula.Disciplina;
 import main.java.universidade.users.Aluno;
 import main.java.universidade.users.Professor;
@@ -182,7 +184,7 @@ public class App {
 
         do {
             System.out.println("\nMenu do Aluno");
-            System.out.println("1. Matricular em Disciplina");
+            System.out.println("1. Criar Matricula");
             System.out.println("2. Cancelar Matrícula");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: \n");
@@ -191,21 +193,14 @@ public class App {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite o nome da disciplina para matrícula:");
-                    String disciplinaMatricula = scanner.nextLine();
-                    Disciplina disciplinaMatricular = buscarDisciplinaPorNome(disciplinaMatricula);
-                    if (disciplinaMatricular != null) {
-                        disciplinaMatricular.matricularAluno(aluno);
-                    } else {
-                        System.out.println("Disciplina não encontrada.");
-                    }
+                    Matricula.criarMatricula(aluno);
                     break;
                 case 2:
                     System.out.println("Digite o nome da disciplina para cancelar matrícula:");
                     String disciplinaDesmatricula = scanner.nextLine();
                     Disciplina disciplinaDesmatricular = buscarDisciplinaPorNome(disciplinaDesmatricula);
                     if (disciplinaDesmatricular != null) {
-                        disciplinaDesmatricular.desmatricularAluno(aluno);
+                        //disciplinaDesmatricular.desmatricularAluno(aluno);
                     } else {
                         System.out.println("Disciplina não encontrada.");
                     }
