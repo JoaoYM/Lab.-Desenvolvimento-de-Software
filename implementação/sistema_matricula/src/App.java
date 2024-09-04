@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -41,7 +42,8 @@ public class App {
                 }
                 break;
             case 3:
-                if (Secretaria.autenticar(login, senha)) {
+                Secretaria secretaria = Secretaria.autenticar(login, senha);
+                if (secretaria != null) {
                     menuSecretaria();
                 } else {
                     System.out.println("Login ou senha incorretos.");
@@ -182,8 +184,8 @@ public class App {
 
         do {
             System.out.println("\nMenu do Aluno");
-            System.out.println("1. Matricular em Disciplina");
-            System.out.println("2. Cancelar Matrícula");
+            System.out.println("1. Matricular em uma Disciplina");
+            System.out.println("2. Desmatricular de uma Disciplina");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: \n");
 
@@ -191,41 +193,33 @@ public class App {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite o nome da disciplina para matrícula:");
-                    String disciplinaMatricula = scanner.nextLine();
-                    Disciplina disciplinaMatricular = buscarDisciplinaPorNome(disciplinaMatricula);
-                    if (disciplinaMatricular != null) {
-                        disciplinaMatricular.matricularAluno(aluno);
-                    } else {
-                        System.out.println("Disciplina não encontrada.");
-                    }
+                    System.out.println("Qual disciplina você deseja se matricular?");
+                    String disciplinaDesejada = scanner.nextLine();
+                    if(Disciplina.buscarDisciplinaPorNome(disciplinaDesejada)){
+                        Disciplina.matricularAlunoEmDisciplina(disciplinaDesejada, aluno);
+                        System.out.println("Inclusão de disciplina realizada com sucesso!");
+                    }else
+                        System.out.println("Disciplina não encontrada!");
                     break;
+
                 case 2:
-                    System.out.println("Digite o nome da disciplina para cancelar matrícula:");
-                    String disciplinaDesmatricula = scanner.nextLine();
-                    Disciplina disciplinaDesmatricular = buscarDisciplinaPorNome(disciplinaDesmatricula);
-                    if (disciplinaDesmatricular != null) {
-                        disciplinaDesmatricular.desmatricularAluno(aluno);
-                    } else {
-                        System.out.println("Disciplina não encontrada.");
-                    }
+                    System.out.println("Qual disciplina você deseja se desmatricular?");
+                    disciplinaDesejada = scanner.nextLine();
+                    if(Disciplina.buscarDisciplinaPorNome(disciplinaDesejada)){
+                        Disciplina.desmatricularAlunoEmDisciplina(disciplinaDesejada, aluno);
+                        System.out.println("Remoção de disciplina realizada com sucesso!");
+                    }else
+                        System.out.println("Disciplina não encontrada!");
                     break;
+
                 case 0:
                     System.out.println("Saindo...");
                     break;
+
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
         } while (opcao != 0);
     }
 
-    private static Disciplina buscarDisciplinaPorNome(String nome) {
-        List<Disciplina> disciplinas = Disciplina.listarDisciplinasList();
-        for (Disciplina disciplina : disciplinas) {
-            if (disciplina.getNome().equals(nome)) {
-                return disciplina;
-            }
-        }
-        return null;
-    }
 }

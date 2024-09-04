@@ -1,6 +1,8 @@
 package main.java.universidade.curso.matricula;
 
+import main.java.universidade.aluno.Matricula;
 import main.java.universidade.curso.Curso;
+import main.java.universidade.users.Aluno;
 import main.java.universidade.utils.FileOperations;
 
 import java.util.ArrayList;
@@ -54,23 +56,23 @@ public class Disciplina {
 
         // Implementar
         System.out.println("Informe o nome do curso relativo a disciplina: ");
-        
+
         Curso curso = new Curso();  // Isso deveria ser substituído por uma lógica de seleção de curso
 
         curso.listarCursos();
 
         System.out.println("Para cadastrar um novo curso digite 1: ");
 
-        String opcao =  scanner.nextLine();
+        String opcao = scanner.nextLine();
 
-        if(opcao.equals("1")){
+        if (opcao.equals("1")) {
             curso = curso.criarCursoInterativo();
-        }else if(curso.pesquisarCursoPorNome(opcao.trim()) == null){
+        } else if (curso.pesquisarCursoPorNome(opcao.trim()) == null) {
             throw new Exception("Curso não encontrado!");
-        }else{
+        } else {
             curso = curso.pesquisarCursoPorNome(opcao.trim());
         }
-        
+
         Disciplina novaDisciplina = new Disciplina(nome, cargaHoraria, curso);
         novaDisciplina.setCreditos(creditos);
 
@@ -115,6 +117,39 @@ public class Disciplina {
         Disciplina disciplina = new Disciplina(splitData[0], Integer.parseInt(splitData[1]), null); // Curso deve ser atualizado com lógica correta
         return disciplina;
     }
+
+
+    public static void matricularAlunoEmDisciplina(String disciplinaDesejada, Aluno aluno) {
+        List<Disciplina> disciplinas = Disciplina.listarDisciplinasList();
+        for (Disciplina disciplina : disciplinas) {
+            if(disciplina.getNome().equals(disciplinaDesejada)){
+                Matricula objetoMatricula = new Matricula(aluno);
+                disciplina.turma.addMatricula(objetoMatricula);
+            }
+        }
+    }
+
+    public static void desmatricularAlunoEmDisciplina(String disciplinaDesejada, Aluno aluno) {
+        List<Disciplina> disciplinas = Disciplina.listarDisciplinasList();
+        for (Disciplina disciplina : disciplinas) {
+            if(disciplina.getNome().equals(disciplinaDesejada)){
+                Matricula objetoMatricula = new Matricula(aluno);
+                disciplina.turma.removeMatricula(objetoMatricula);
+            }
+        }
+    }
+
+    public static boolean buscarDisciplinaPorNome(String disciplinaDesejada) {
+        List<Disciplina> disciplinas = Disciplina.listarDisciplinasList();
+        for (Disciplina disciplina : disciplinas) {
+            if (disciplina.getNome().equals(disciplinaDesejada)) {
+                return true;
+
+            }
+        }
+        return false;
+    }
+
 
     // Getters e Setters adicionais
 

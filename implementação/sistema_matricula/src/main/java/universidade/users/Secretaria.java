@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Secretaria implements Usuario {
-    private static final String ARQUIVO_SECRETARIAS = "./src/main/java/universidade/assets/secretarias.txt";
+    private static final String ARQUIVO_SECRETARIAS = "implementação/sistema_matricula/src/main/java/universidade/assets/secretarias.txt";
 
     private String nome;
     private String login;
@@ -22,14 +22,14 @@ public class Secretaria implements Usuario {
         this.senha = senha;
     }
 
-    public static boolean autenticar(String login, String senha) {
+    public static Secretaria autenticar(String login, String senha) {
         List<Secretaria> secretarias = FileOperations.recuperarObjetos(ARQUIVO_SECRETARIAS, Secretaria.class);
-        for (Secretaria aluno : secretarias) {
-            if (aluno.getLogin().equals(login) && aluno.getSenha().equals(senha)) {
-                return true;
+        for (Secretaria secretaria : secretarias) {
+            if (secretaria.getLogin().equals(login) && secretaria.getSenha().equals(senha)) {
+                return secretaria;
             }
         }
-        return false;
+        return null;
     }
 
     

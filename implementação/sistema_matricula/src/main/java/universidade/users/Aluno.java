@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Aluno implements Usuario {
-    private static final String ARQUIVO_ALUNOS = "./src/main/java/universidade/assets/alunos.txt";
+    private static final String ARQUIVO_ALUNOS = "implementação/sistema_matricula/src/main/java/universidade/assets/alunos.txt";
 
 
     private String nome;
