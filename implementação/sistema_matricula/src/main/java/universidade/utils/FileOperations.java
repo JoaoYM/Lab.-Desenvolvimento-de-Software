@@ -36,9 +36,9 @@ public class FileOperations {
         return objetos;
     }
 
-    public static <T> void atualizarObjeto(String caminhoArquivo, T objetoAtualizado, Class<T> clazz) {
+    public static <T> void atualizarObjeto(String caminhoArquivo, T objetoAtualizado, T objetoOriginal, Class<T> clazz) {
         List<T> objetos = recuperarObjetos(caminhoArquivo, clazz);
-        String objetoStr = objetoAtualizado.toString();
+        String objetoStr = objetoOriginal.toString();
 
         for (int i = 0; i < objetos.size(); i++) {
             if (objetos.get(i).toString().equals(objetoStr)) {

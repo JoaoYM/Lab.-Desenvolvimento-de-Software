@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Secretaria implements Usuario {
-    private static final String ARQUIVO_SECRETARIAS = "./src/main/java/universidade/assets/secretarias.txt";
+    private static final String ARQUIVO_SECRETARIAS = "./Lab.-Desenvolvimento-de-Software/implementação/sistema_matricula/src/main/java/universidade/assets/secretarias.txt";
 
     private String nome;
     private String login;
@@ -32,10 +32,39 @@ public class Secretaria implements Usuario {
         return false;
     }
 
-    
+
+    public static void listarSecretariasByIndex() {
+        List<Secretaria> secretarias = FileOperations.recuperarObjetos(ARQUIVO_SECRETARIAS, Secretaria.class);
+       
+        int index = 0;
+        
+        for (Secretaria secretaria : secretarias) {
+            System.out.println("[" + index++ + "]" + secretaria.getNome());
+        }
+    }
+
+    public static Secretaria obterSecretariaByIndex(int index) {
+        
+        List<Secretaria> secretarias = FileOperations.recuperarObjetos(ARQUIVO_SECRETARIAS, Secretaria.class);
+        
+        int currentIndex = 0;
+
+        for (Secretaria secretaria : secretarias) {
+            if(currentIndex == index){
+                return secretaria;
+            }
+
+            currentIndex++;
+        }
+
+        return null;
+    }
+
+
     // -----------------------------------------------------------------------|
     //                                    CRUD                                |   
     // -----------------------------------------------------------------------|
+
 
     public Aluno cadastrarAluno() {
         return new Aluno();

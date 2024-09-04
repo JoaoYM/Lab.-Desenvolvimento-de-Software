@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Curso {
-    private static final String ARQUIVO_CURSOS = "./src/main/java/universidade/assets/cursos.txt";
+    private static final String ARQUIVO_CURSOS = "./Lab.-Desenvolvimento-de-Software/implementação/sistema_matricula/src/main/java/universidade/assets/cursos.txt";
 
     private int codigo;
     private String nome;
@@ -59,8 +59,8 @@ public class Curso {
         }
     }
 
-    public static void atualizarCurso(Curso cursoAtualizado) {
-        FileOperations.atualizarObjeto(ARQUIVO_CURSOS, cursoAtualizado, Curso.class);
+    public static void atualizarCurso(Curso cursoAtualizado, Curso cursoOriginal) {
+        FileOperations.atualizarObjeto(ARQUIVO_CURSOS, cursoAtualizado, cursoOriginal, Curso.class);
     }
 
     public static void deletarCurso(Curso curso) {

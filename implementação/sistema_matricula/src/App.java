@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import javax.swing.GroupLayout.Alignment;
 
+import main.java.universidade.aluno.Matricula;
 import main.java.universidade.curso.matricula.Disciplina;
 import main.java.universidade.users.Aluno;
 import main.java.universidade.users.Professor;
@@ -18,6 +19,9 @@ public class App {
         System.out.println("3. Secretaria");
         int origem = Integer.parseInt(scanner.nextLine());
 
+        System.out.println("Deseja criar uma nova conta? [y/n]");
+        String opcao = scanner.nextLine();
+
         System.out.println("Digite o login:");
         String login = scanner.nextLine();
         System.out.println("Digite a senha:");
@@ -25,27 +29,42 @@ public class App {
 
         switch (origem) {
             case 1:
-                Professor professor = Professor.autenticar(login, senha);
-                if (professor != null) {
-                    menuProfessor(professor);
-                } else {
-                    System.out.println("Login ou senha incorretos.");
+                if(opcao.trim().equals("y")){
+                    Professor.criarProfessor();
+                }else{
+                    Professor professor = Professor.autenticar(login, senha);
+                    if (professor != null) {
+                        menuProfessor(professor);
+                    } else {
+                        System.out.println("Login ou senha incorretos.");
+                    }
                 }
+
                 break;
             case 2:
-                Aluno aluno = Aluno.autenticar(login, senha);
-                if (aluno != null) {
-                    menuAluno(aluno);
-                } else {
-                    System.out.println("Login ou senha incorretos.");
+                if(opcao.trim().equals("y")){
+                    Professor.criarProfessor();
+                }else{
+                    Aluno aluno = Aluno.autenticar(login, senha);
+                    if (aluno != null) {
+                        menuAluno(aluno);
+                    } else {
+                        System.out.println("Login ou senha incorretos.");
+                    }
                 }
+
                 break;
             case 3:
-                if (Secretaria.autenticar(login, senha)) {
-                    menuSecretaria();
-                } else {
-                    System.out.println("Login ou senha incorretos.");
+                if(opcao.trim().equals("y")){
+                    Professor.criarProfessor();
+                }else{
+                    if (Secretaria.autenticar(login, senha)) {
+                        menuSecretaria();
+                    } else {
+                        System.out.println("Login ou senha incorretos.");
+                    }
                 }
+
                 break;
             default:
                 System.out.println("Origem inválida.");
@@ -121,24 +140,91 @@ public class App {
                     break;
                 case 3:
                     if (entidade.equals("Aluno")) {
-                        Aluno.atualizarAluno(new Aluno());;
+                        Aluno.listarAlunosByIndex();
+
+                        System.out.println("Selecione o aluno a ser alterado: ");
+                        int index = Integer.parseInt(scanner.nextLine());
+                        Aluno aluno = Aluno.obterAlunoByIndex(index);
+
+                        if(aluno != null){
+                            Aluno newAluno = Aluno.criarAlunoInterativo();
+                            Aluno.atualizarAluno(newAluno, aluno);
+                        }else{
+                            System.out.println("Aluno não encontrado!");
+                        }
                     } else if (entidade.equals("Professor")) {
-                        Professor.atualizarProfessor(new Professor());
+                        Professor.listarProfessoresByIndex();
+
+                        System.out.println("Selecione o professor a ser alterado: ");
+                        int index = Integer.parseInt(scanner.nextLine());
+                        Professor professor = Professor.obterProfessorByIndex(index);
+
+                        if(professor != null){
+                            Professor newProfessor = Professor.criarProfessorInterativo();
+                            Professor.atualizarProfessor(professor, newProfessor);
+                        }else{
+                            System.out.println("Professor não encontrado!");
+                        }
                     } else if (entidade.equals("Disciplina")) {
-                        Disciplina.atualizarDisciplina(new Disciplina());;
+                        Disciplina.listarDisciplinasByIndex();
+
+                        System.out.println("Selecione a disciplina a ser alterada: ");
+                        int index = Integer.parseInt(scanner.nextLine());
+                        Disciplina disciplina = Disciplina.obterDisciplinaByIndex(index);
+
+                        if(disciplina != null){
+                            Disciplina newDisciplina = Disciplina.inputDadosDisciplina();
+                            Disciplina.atualizarDisciplina(disciplina, newDisciplina);
+                        }else{
+                            System.out.println("Disciplina não encontrada!");
+                        }
                     }
                     break;
                 case 4:
                     if (entidade.equals("Aluno")) {
-                        Aluno.deletarAluno(new Aluno());
+
+                        Aluno.listarAlunosByIndex();
+
+                        System.out.println("Selecione o aluno a ser deletado: ");
+                        int index = Integer.parseInt(scanner.nextLine());
+                        Aluno aluno = Aluno.obterAlunoByIndex(index);
+
+                        if(aluno != null){
+                            Aluno.deletarAluno(aluno);
+                           
+                        }else{
+                            System.out.println("Aluno não encontrado!");
+                        }
                     } else if (entidade.equals("Professor")) {
-                        Professor.deletarProfessor(new Professor());
+                        Professor.listarProfessoresByIndex();
+
+                        System.out.println("Selecione o professor a ser deletado: ");
+                        int index = Integer.parseInt(scanner.nextLine());
+                        Professor professor = Professor.obterProfessorByIndex(index);
+
+                        if(professor != null){
+                            Professor.deletarProfessor(professor);
+                           
+                        }else{
+                            System.out.println("Professor não encontrado!");
+                        }
                     } else if (entidade.equals("Disciplina")) {
-                        Disciplina.deletarDisciplina(new Disciplina());
+                        Disciplina.listarDisciplinasByIndex();
+
+                        System.out.println("Selecione a disciplina a ser deletada: ");
+                        int index = Integer.parseInt(scanner.nextLine());
+                        Disciplina disciplina = Disciplina.obterDisciplinaByIndex(index);
+
+                        if(disciplina != null){
+                            Disciplina.deletarDisciplina(disciplina);
+                           
+                        }else{
+                            System.out.println("Disciplina não encontrada!");
+                        }
                     }
                     break;
                 case 0:
-                    System.out.println("Voltando ao menuSecretaria principal...");
+                    System.out.println("Voltando ao menu principal...");
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
@@ -162,9 +248,10 @@ public class App {
 
             switch (opcao) {
                 case 1:
+                    Disciplina.listarDisciplinasPorProfessor(professor.getNome());
                     break;
                 case 2:
-                 
+                    
                 case 3:
                     
                 case 0:
@@ -191,24 +278,51 @@ public class App {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite o nome da disciplina para matrícula:");
-                    String disciplinaMatricula = scanner.nextLine();
-                    Disciplina disciplinaMatricular = buscarDisciplinaPorNome(disciplinaMatricula);
-                    if (disciplinaMatricular != null) {
-                        disciplinaMatricular.matricularAluno(aluno);
+                    
+                    System.out.println("Selecione a disciplina na qual deseja se matricular: ");
+                    Disciplina.listarDisciplinasByIndex();
+                    int index = Integer.parseInt(scanner.nextLine());
+
+                    Disciplina disciplina = Disciplina.obterDisciplinaByIndex(index);
+
+                    if (disciplina != null) {
+                        
+                        if(disciplina.getTurma().getNumeroMaximoAlunos() < disciplina.getTurma().getNumeroMinimoAlunos() && disciplina.getTurma().getStatus().equals("Aberta")){
+                            disciplina.getTurma().addMatricula(new Matricula(aluno));
+                        }else{
+                            System.out.println("As incrições para as turmas ofertadas nessa disciplina foram encerradas!");
+                        }
                     } else {
                         System.out.println("Disciplina não encontrada.");
                     }
                     break;
                 case 2:
-                    System.out.println("Digite o nome da disciplina para cancelar matrícula:");
-                    String disciplinaDesmatricula = scanner.nextLine();
-                    Disciplina disciplinaDesmatricular = buscarDisciplinaPorNome(disciplinaDesmatricula);
-                    if (disciplinaDesmatricular != null) {
-                        disciplinaDesmatricular.desmatricularAluno(aluno);
+
+                    System.out.println("Selecione a disciplina na qual deseja se matricular: ");
+                    Disciplina.listarDisciplinasByIndex();
+                    int index = Integer.parseInt(scanner.nextLine());
+
+                    Disciplina disciplina = Disciplina.obterDisciplinaByIndex(index);
+
+                    if (disciplina != null) {
+                        
+                        if(disciplina.getTurma().getStatus().equals("Aberta")){
+                            List<Matricula> matriculas = disciplina.getTurma().getMatriculas();
+
+                            for(Matricula matricula : matriculas){
+                                if(matricula.getAluno().getNome().equals(aluno.getNome())){
+                                    disciplina.getTurma().removeMatricula(matricula);
+                                    System.out.println("Matricula cancelada com sucesso!");
+                                }
+                            }
+
+                        }else{
+                            System.out.println("As incrições para as turmas ofertadas nessa disciplina foram encerradas!");
+                        }
                     } else {
                         System.out.println("Disciplina não encontrada.");
                     }
+
                     break;
                 case 0:
                     System.out.println("Saindo...");

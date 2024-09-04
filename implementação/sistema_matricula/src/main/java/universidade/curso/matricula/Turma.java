@@ -2,6 +2,7 @@ package main.java.universidade.curso.matricula;
 
 import main.java.universidade.aluno.Matricula;
 import main.java.universidade.users.Professor;
+import main.java.universidade.utils.FileOperations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Turma {
     private String status;
     private int ano;
     private int semestre;
+    private String codigo;
 
     public Turma(Disciplina disciplina) {
         this.disciplina = disciplina;
@@ -85,5 +87,13 @@ public class Turma {
         } else if (matriculas.size() >= numeroMaximoAlunos) {
             this.status = "Fechada";
         }
+    }
+
+    public String getCodigo() {
+        return this.codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 }

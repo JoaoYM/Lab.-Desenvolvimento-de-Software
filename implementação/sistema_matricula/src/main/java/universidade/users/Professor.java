@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Professor implements Usuario {
-    private static final String ARQUIVO_PROFESSORES = "./src/main/java/universidade/assets/professores.txt";
+    private static final String ARQUIVO_PROFESSORES = "./Lab.-Desenvolvimento-de-Software/implementação/sistema_matricula/src/main/java/universidade/assets/professores.txt";
 
     private String nome;
     private String login;
@@ -43,6 +43,33 @@ public class Professor implements Usuario {
         return new Professor(nome, login, senha);
     }
 
+    public static void listarProfessoresByIndex() {
+        List<Professor> professores = FileOperations.recuperarObjetos(ARQUIVO_PROFESSORES, Professor.class);
+       
+        int index = 0;
+        
+        for (Professor professor : professores) {
+            System.out.println("[" + index++ + "]" + professor.getNome());
+        }
+    }
+
+    public static Professor obterProfessorByIndex(int index) {
+        
+        List<Professor> professores = FileOperations.recuperarObjetos(ARQUIVO_PROFESSORES, Professor.class);
+        
+        int currentIndex = 0;
+
+        for (Professor professor : professores) {
+            if(currentIndex == index){
+                return professor;
+            }
+
+            currentIndex++;
+        }
+
+        return null;
+    }
+
     public static void listarProfessores() {
         List<Professor> professores = FileOperations.recuperarObjetos(ARQUIVO_PROFESSORES, Professor.class);
         for (Professor professor : professores) {
@@ -50,8 +77,8 @@ public class Professor implements Usuario {
         }
     }
 
-    public static void atualizarProfessor(Professor professorAtualizado) {
-        FileOperations.atualizarObjeto(ARQUIVO_PROFESSORES, professorAtualizado, Professor.class);
+    public static void atualizarProfessor(Professor professorAtualizado, Professor professorOriginal) {
+        FileOperations.atualizarObjeto(ARQUIVO_PROFESSORES, professorAtualizado, professorOriginal, Professor.class);
     }
 
     public static void deletarProfessor(Professor professor) {

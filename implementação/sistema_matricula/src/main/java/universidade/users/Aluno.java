@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Aluno implements Usuario {
-    private static final String ARQUIVO_ALUNOS = "./src/main/java/universidade/assets/alunos.txt";
+    private static final String ARQUIVO_ALUNOS = "./Lab.-Desenvolvimento-de-Software/implementação/sistema_matricula/src/main/java/universidade/assets/alunos.txt";
 
 
     private String nome;
@@ -44,6 +44,31 @@ public class Aluno implements Usuario {
         FileOperations.salvarObjeto(ARQUIVO_ALUNOS, novoAluno);
     }
 
+    public static void listarAlunosByIndex() {
+        List<Aluno> alunos = FileOperations.recuperarObjetos(ARQUIVO_ALUNOS, Aluno.class);
+        int index = 0;
+        for (Aluno aluno : alunos) {
+            System.out.println("[" + index++ + "]" + aluno.getNome());
+        }
+    }
+
+    public static Aluno obterAlunoByIndex(int index) {
+        
+        List<Aluno> alunos = FileOperations.recuperarObjetos(ARQUIVO_ALUNOS, Aluno.class);
+        
+        int currentIndex = 0;
+
+        for (Aluno aluno : alunos) {
+            if(currentIndex == index){
+                return aluno;
+            }
+
+            currentIndex++;
+        }
+
+        return null;
+    }
+
     public static void listarAlunos() {
         List<Aluno> alunos = FileOperations.recuperarObjetos(ARQUIVO_ALUNOS, Aluno.class);
         for (Aluno aluno : alunos) {
@@ -51,8 +76,8 @@ public class Aluno implements Usuario {
         }
     }
 
-    public static void atualizarAluno(Aluno alunoAtualizado) {
-        FileOperations.atualizarObjeto(ARQUIVO_ALUNOS, alunoAtualizado, Aluno.class);
+    public static void atualizarAluno(Aluno alunoAtualizado, Aluno alunoOriginal) {
+        FileOperations.atualizarObjeto(ARQUIVO_ALUNOS, alunoAtualizado, alunoOriginal, Aluno.class);
     }
 
     public static void deletarAluno(Aluno aluno) {

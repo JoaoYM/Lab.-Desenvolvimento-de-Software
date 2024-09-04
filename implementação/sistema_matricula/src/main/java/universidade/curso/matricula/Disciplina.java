@@ -1,6 +1,7 @@
 package main.java.universidade.curso.matricula;
 
 import main.java.universidade.curso.Curso;
+import main.java.universidade.users.Professor;
 import main.java.universidade.utils.FileOperations;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Disciplina {
-    private static final String ARQUIVO_DISCIPLINAS = "./src/main/java/universidade/assets/disciplinas.txt";
+    private static final String ARQUIVO_DISCIPLINAS = "./Lab.-Desenvolvimento-de-Software/implementação/sistema_matricula/src/main/java/universidade/assets/disciplinas.txt";
 
     private String nome;
     private int cargaHoraria;
@@ -79,6 +80,34 @@ public class Disciplina {
         return novaDisciplina;
     }
 
+    public static void listarDisciplinasByIndex() {
+        List<Disciplina> disciplinas = FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
+       
+        int index = 0;
+        
+        for (Disciplina disciplina : disciplinas) {
+            System.out.println("[" + index++ + "]" + disciplina.getNome());
+        }
+    }
+
+    public static Disciplina obterDisciplinaByIndex(int index) {
+        
+        List<Disciplina> disciplinas = FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
+        
+        int currentIndex = 0;
+
+        for (Disciplina disciplina : disciplinas) {
+            if(currentIndex == index){
+                return disciplina;
+            }
+
+            currentIndex++;
+        }
+
+        return null;
+    }
+
+
     // Métodos CRUD
 
     public static void criarDisciplina() throws Exception {
@@ -93,12 +122,26 @@ public class Disciplina {
         }
     }
 
+    public static void listarDisciplinasPorProfessor(String nomeProfesor) {
+        List<Disciplina> disciplinas = FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
+
+        int index = 0;
+
+        for (Disciplina disciplina : disciplinas) {
+            if(disciplina.getTurma().getProfessorResponsavel().getNome().equals(nomeProfesor)){
+                System.out.println("Código da turma: " + (disciplinas.size() + index) +  "Matriculas: " + disciplina.getTurma().getNumeroDeMatriculas());
+            }
+
+            index++;
+        }
+    }
+
     public static List<Disciplina> listarDisciplinasList() {
         return FileOperations.recuperarObjetos(ARQUIVO_DISCIPLINAS, Disciplina.class);
     }
 
-    public static void atualizarDisciplina(Disciplina disciplinaAtualizada) {
-        FileOperations.atualizarObjeto(ARQUIVO_DISCIPLINAS, disciplinaAtualizada, Disciplina.class);
+    public static void atualizarDisciplina(Disciplina disciplinaAtualizada, Disciplina disciplinaOriginal) {
+        FileOperations.atualizarObjeto(ARQUIVO_DISCIPLINAS, disciplinaAtualizada, disciplinaOriginal, Disciplina.class);
     }
 
     public static void deletarDisciplina(Disciplina disciplina) {
