@@ -195,7 +195,7 @@ public class App {
                     String disciplinaMatricula = scanner.nextLine();
                     Disciplina disciplinaMatricular = buscarDisciplinaPorNome(disciplinaMatricula);
                     if (disciplinaMatricular != null) {
-                        //disciplinaMatricular.matricularAluno(aluno);
+                        disciplinaMatricular.matricularAluno(aluno);
                     } else {
                         System.out.println("Disciplina não encontrada.");
                     }
@@ -205,7 +205,7 @@ public class App {
                     String disciplinaDesmatricula = scanner.nextLine();
                     Disciplina disciplinaDesmatricular = buscarDisciplinaPorNome(disciplinaDesmatricula);
                     if (disciplinaDesmatricular != null) {
-                        //disciplinaDesmatricular.desmatricularAluno(aluno);
+                        disciplinaDesmatricular.desmatricularAluno(aluno);
                     } else {
                         System.out.println("Disciplina não encontrada.");
                     }
